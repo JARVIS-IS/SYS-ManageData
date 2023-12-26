@@ -3,29 +3,40 @@ const cors = require('cors');
 const fs = require('fs');
 
 const app = express();
-const port = 3002;
-const path = '';
+const port = 3004;
+const path = '/srv/app/media';
 
 app.use(express.json());
 app.use(cors());
 
 function getPath(name) {
-	nameList = fs.writeFileSync(path + 'main.json');
+	return new Promise((resolve, reject) => {
+		try {
+			console.log(path + '/main.json');
+			const nameList = JSON.parse(fs.readFileSync(path + '/main.json'));
+			console.log(nameList);
+			console.log(name);
+			const jsonPath = nameList[name];
 
-	jsonPath = nameList[name];
-	return JSON.parse(fs.readFileSync(path + jsonPath));
+			const data = JSON.parse(fs.readFileSync(path + '/' + jsonPath));
+			resolve(data);
+		} catch (error) {
+			reject(error);
+		}
+	});
 }
 
 app.post('', (req, res) => {
-	getPath()
-		.then((containerList) => {
-			res.json(containerList);
+	console.log(req.body.type);
+	getPath('token')
+		.then((data) => {
+			console.log(data);
+			res.json(data);
 		})
 		.catch((error) => {
 			res.sendStatus(404);
 			res.send(error);
 		});
-	res.json();
 });
 
 app.listen(port, () => console.log(`The SYS-ManageData server runs on port ${port}`));
