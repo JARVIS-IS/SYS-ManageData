@@ -5,10 +5,14 @@ services:
         container_name: SYS-ManageData
         command: /bin/sh -c "cd /srv/app && npm install && node index.js"
         ports:
-            - 3002:3002
+            - 3004:3004
         working_dir: /srv/app
+
         volumes:
             - type: bind
               source: ./
               target: /srv/app
+            - type: bind
+              source: /media/duriaux/ED/JARVIS-IS
+              target: /srv/app/media
         tty: true
