@@ -3,7 +3,7 @@ const cors = require('cors');
 const fs = require('fs');
 
 const app = express();
-const port = 3004;
+const port = 3002;
 const path = '/srv/app/media';
 
 app.use(express.json());
