@@ -27,16 +27,20 @@ function getPath(name) {
 }
 
 app.post('', (req, res) => {
-	console.log(req.body.type);
-	getPath('token')
-		.then((data) => {
-			console.log(data);
-			res.json(data);
-		})
-		.catch((error) => {
-			res.sendStatus(404);
-			res.send(error);
-		});
+	if (req.body.type == 'status') {
+		res.sendStatus(200);
+	} else {
+		console.log(req.body.type);
+		getPath('token')
+			.then((data) => {
+				console.log(data);
+				res.json(data);
+			})
+			.catch((error) => {
+				res.sendStatus(404);
+				res.send(error);
+			});
+	}
 });
 
 app.listen(port, () => console.log(`The SYS-ManageData server runs on port ${port}`));
